@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Romain Grincourt</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="logo-layer">
+        <div class="windows-logo-bg">
+            <div class="pane"></div><div class="pane"></div>
+            <div class="pane"></div><div class="pane"></div>
+        </div>
+    </div>
+
+    <div id="intro-container">
+        <video id="intro-video" autoplay muted playsinline>
+            <source src="Creation_Video_Logo_Windows.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <main id="main-ui" class="hidden">
+        <div id="window-manager">
+            <div id="win-projets" class="window">
+                <div class="window-header">
+                    <div class="window-title" id="win-title">📂 Explorateur de Projets</div>
+                    <div class="window-controls">
+                        <button id="btn-toggle-skills" class="skill-toggle-btn hidden" onclick="toggleSkillsPanel()">
+                            <i class='bx bxs-graduation'></i> Compétences
+                        </button>
+                        <span class="win-btn close" onclick="closeWindow('win-projets')">×</span>
+                    </div>
+                </div>
+                
+                <div class="window-body-wrapper">
+                    <aside id="project-sidebar" class="project-sidebar hidden">
+                        <div class="sidebar-label">Navigation</div>
+                        <nav id="quick-nav-list"></nav>
+                    </aside>
+
+                    <div class="window-content" id="win-projets-content">
+                        <div id="projects-main-content">
+                            <div class="projects-grid">
+                                <div class="project-item" onclick="showProjectDetails('glpi')">
+                                    <div class="project-icon">🛠️</div>
+                                    <div class="project-name">R1 - GLPI</div>
+                                </div>
+                                <div class="project-item" onclick="showProjectDetails('r2')">
+                                    <div class="project-icon">🌐</div>
+                                    <div class="project-name">R2 - Maintenance</div>
+                                </div>
+                                <div class="project-item" onclick="showProjectDetails('r3')">
+                                    <div class="project-icon">🛡️</div>
+                                    <div class="project-name">R3 - Admin Syst.</div>
+                                </div>
+                                <div class="project-item" onclick="showProjectDetails('r4')">
+                                    <div class="project-icon">🔌</div>
+                                    <div class="project-name">R4 - Baie & Brassage</div>
+                                </div>
+                                <div class="project-item" onclick="showProjectDetails('r5')">
+                                    <div class="project-icon">🃏</div>
+                                    <div class="project-name">R5 - Bataille Java</div>
+                                </div>
+                                <div class="project-item" onclick="showProjectDetails('r6')">
+                                    <div class="project-icon">⚓</div>
+                                    <div class="project-name">R6 - Bataille Navale</div>
+                                </div>
+                                <div class="project-item" onclick="showProjectDetails('r7')">
+                                    <div class="project-icon">💻</div>
+                                    <div class="project-name">R7 - Intranet</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="project-details" class="hidden">
+                            <button class="back-btn" onclick="hideProjectDetails()">← Retour</button>
+                            <div id="detail-content"></div>
+                            <div class="nav-footer">
+                                <button id="next-project-btn" class="next-btn">Projet Suivant →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="skills-panel" class="skills-panel hidden">
+                        <h2 class="cyan-title" style="font-size: 1.2rem;">Compétences liées</h2>
+                        <div id="skills-list-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="win-about" class="window win-large"> 
+                <div class="window-header">
+                    <div class="window-title">👤 À Propos - Romain Grincourt</div>
+                    <div class="window-controls">
+                        <span class="win-btn close" onclick="closeWindow('win-about')">×</span>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="about-grid">
+                        <aside class="about-sidebar">
+                            <div class="profile-pic">RG</div>
+                            <div class="sidebar-info">
+                                <p><strong>Localisation:</strong> Caen, France</p>
+                                <p><strong>Alternance:</strong> Askil</p>
+                                <p><strong>Statut:</strong> Étudiant BTS SIO</p>
+                            </div>
+                        </aside>
+                        
+                        <div class="about-main">
+                            <section class="about-section">
+                                <h1 class="cyan-title">Romain Grincourt</h1>
+                                <h3 class="subtitle">Développeur Web/Applis & Technicien Réseau</h3>
+                                <p class="desc">
+                                    Actuellement étudiant en 2ème année de <strong>BTS SIO</strong> en alternance chez <strong>Askil</strong>. 
+                                    Je développe des solutions numériques tout en assurant la stabilité de l'infrastructure réseau.
+                                </p>
+                            </section>
+        
+                            <section class="about-section card">
+                                <h2 class="cyan-title"><i class='bx bxs-briefcase'></i> Mon Alternance chez ASKIL</h2>
+                                <p class="enterprise-info">Entreprise de 120 collaborateurs sur 3 sites. Service informatique : 2 personnes.</p>
+                                <ul class="missions-list">
+                                    <li><strong>Support informatique :</strong> Réseau, dev, matériel et logiciel.</li>
+                                    <li><strong>Active Directory :</strong> Gestion des utilisateurs et des GPO.</li>
+                                    <li><strong>Développement :</strong> Création d'un intranet de gestion de matrices.</li>
+                                </ul>
+                            </section>
+        
+                            <section class="about-section card">
+                                <h2 class="cyan-title"><i class='bx bxs-graduation'></i> Mon Parcours</h2>
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <span class="date">2024 - 2026</span>
+                                        <p><strong>BTS SIO (Option SLAM)</strong> - E2SE Caen</p>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <span class="date">2019 - 2022</span>
+                                        <p><strong>Baccalauréat Général</strong> - Option NSI</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="win-competences" class="window win-large">
+                <div class="window-header">
+                    <div class="window-title">📊 Mes Compétences</div>
+                    <div class="window-controls">
+                        <span class="win-btn close" onclick="closeWindow('win-competences')">×</span>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <h1 class="cyan-title">Expertise & Maîtrise</h1>
+                    <p class="desc">Au fil de mes projets et de mon alternance, j'ai acquis de nouvelles bases solides tout en perfectionnant mes acquis en développement et systèmes.</p>
+                    
+                    <div class="skills-showcase">
+                        <div class="skills-column">
+                            <h3 class="subtitle">Développement (SLAM)</h3>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>HTML / CSS</span> <span>90%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 90%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>JavaScript</span> <span>50%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 50%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>Java</span> <span>60%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 60%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>C# (Unity)</span> <span>75%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 75%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>SQL (MySQL)</span> <span>80%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 80%;"></div></div>
+                            </div>
+                        </div>
+
+                        <div class="skills-column">
+                            <h3 class="subtitle">Infrastructure & Réseaux</h3>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>Administration AD / GPO</span> <span>100%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 100%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>GLPI / Ticketing</span> <span>90%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 90%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>Supervision (PRTG)</span> <span>65%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 65%;"></div></div>
+                            </div>
+                            <div class="skill-gauge-item">
+                                <div class="gauge-label"><span>Virtualisation (Hyper-V)</span> <span>70%</span></div>
+                                <div class="gauge-bar"><div class="gauge-fill" style="width: 70%;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-section card" style="margin-top: 30px;">
+                        <h2 class="cyan-title" style="font-size: 1.2rem;">Évolution & Apprentissage</h2>
+                        <ul class="missions-list">
+                            <li><strong>Compétences acquises :</strong> Gestion de parc (GLPI), supervision réseau, développement de jeux sous Unity (C#) et déploiement de solutions intranet.</li>
+                            <li><strong>Compétences améliorées :</strong> Approfondissement de la logique de programmation JavaScript grâce à l'IA, automatisation système via PowerShell et rigueur dans l'administration Active Directory.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="win-veille" class="window win-large">
+                <div class="window-header">
+                    <div class="window-title">🔍 Veille Technologique & Conclusion</div>
+                    <div class="window-controls">
+                        <span class="win-btn close" onclick="closeWindow('win-veille')">×</span>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <section class="about-section">
+                        <h1 class="cyan-title">Ma Veille Technologique</h1>
+                        <div class="desc-box" style="line-height: 1.8; font-size: 1.05rem;">
+                            <p>
+                                Pour conclure, ces deux années au sein du cabinet <strong>Askil</strong> et de ma formation m’ont permis de devenir autonome et polyvalent. La réussite de ces projets a reposé sur une veille technologique constante et adaptée à chaque défi :
+                            </p>
+                            <br>
+                            <ul class="missions-list">
+                                <li>J'ai sollicité la communauté sur le <a href="https://forum.glpi-project.org/" target="_blank" class="cyan-link">forum officiel GLPI</a> pour les problématiques de gestion de parc.</li>
+                                <li>J'ai approfondi mes bases réseaux et systèmes via mes cours théoriques et pratiques ainsi que mon apprentissage en entreprise.</li>
+                                <li>J'ai exploré l'<strong>Intelligence Artificielle</strong> comme outil d'apprentissage pour monter en compétence sur la logique <strong>JavaScript</strong>.</li>
+                                <li>Pour mes projets plus complexes sous <strong>Unity et C#</strong>, je me suis appuyé sur les <a href="https://docs.unity3d.com/Manual/index.html" target="_blank" class="cyan-link">documentations techniques officielles</a> et des ressources spécialisées comme la chaîne <a href="https://www.youtube.com/@TutoUnityFR" target="_blank" class="cyan-link">TUTO Unity FR</a> sur YouTube.</li>
+                            </ul>
+                            <br>
+                            <p>
+                                Toutes ces expériences m'ont permis de valider l'ensemble des compétences de mon portfolio et de confirmer mon souhait de poursuivre dans le <strong>développement d'applications</strong>.
+                            </p>
+                            <p style="margin-top: 20px; font-style: italic; color: #14f4fe;">
+                                Je vous remercie de votre attention et je suis désormais prêt à répondre à vos questions.
+                            </p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="win-contact" class="window win-small"> 
+                <div class="window-header">
+                    <div class="window-title">📧 Me contacter</div>
+                    <div class="window-controls">
+                        <span class="win-btn close" onclick="closeWindow('win-contact')">×</span>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="contact-container">
+                        <p class="contact-text">N'hésitez pas à utiliser les liens ci-dessous pour me contacter !</p>
+                        <div class="contact-links">
+                            <a href="https://github.com/Jemalro" target="_blank" class="contact-btn btn-github">
+                                <i class='bx bxl-github'></i> GitHub
+                            </a>
+                            <a href="mailto:romaingrincourt1304@gmail.com" class="contact-btn btn-mail">
+                                <i class='bx bxs-envelope'></i> E-Mail
+                            </a>
+                            <a href="https://www.linkedin.com/in/romain-grincourt-b04ba72a0/" target="_blank" class="contact-btn btn-linkedin">
+                                <i class='bx bxl-linkedin-square'></i> LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="taskbar">
+            <div class="start-menu-icon" onclick="toggleWindow('win-about')">
+                <div class="win-icon-grid"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <nav class="menu">
+                <button class="glass-btn" onclick="toggleWindow('win-projets')">Projets</button>
+                <button class="glass-btn" onclick="toggleWindow('win-competences')">Compétences</button>
+                <button class="glass-btn" onclick="toggleWindow('win-veille')">Veille</button>
+                <button class="glass-btn" onclick="toggleWindow('win-about')">À propos</button>
+                <button class="glass-btn" onclick="toggleWindow('win-contact')">Contact</button>
+            </nav>
+            <div class="taskbar-widgets"><div id="clock">00:00</div></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
