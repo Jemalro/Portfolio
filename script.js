@@ -9,14 +9,13 @@ const clock = document.getElementById('clock');
 const winProjets = document.getElementById('win-projets');
 const winAbout = document.getElementById('win-about');
 const winVeille = document.getElementById('win-veille');
-const winCompetences = document.getElementById('win-competences'); // Fenêtre Compétences
+const winCompetences = document.getElementById('win-competences'); 
 const winContact = document.getElementById('win-contact'); 
 const btnSkills = document.getElementById('btn-toggle-skills');
 const skillsPanel = document.getElementById('skills-panel');
 const sidebar = document.getElementById('project-sidebar');
 
 const sessionSeed = Math.random() * 2000.0;
-
 const projectOrder = ['glpi', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7'];
 
 const projectData = {
@@ -111,19 +110,15 @@ let isSkillsPanelOpen = false;
 function toggleWindow(id) {
     const win = document.getElementById(id);
     const isOpen = win.classList.contains('active');
-
-    // Fermeture de toutes les fenêtres
     ['win-projets', 'win-about', 'win-contact', 'win-veille', 'win-competences'].forEach(w => closeWindow(w));
 
     if (!isOpen) {
         openWindow(id);
-        // Animation des jauges si on ouvre les compétences
         if(id === 'win-competences') {
             setTimeout(() => {
-                const fills = document.querySelectorAll('.gauge-fill');
-                fills.forEach(f => {
-                    const targetWidth = f.parentElement.previousElementSibling.lastElementChild.innerText;
-                    f.style.width = targetWidth;
+                document.querySelectorAll('.gauge-fill').forEach(f => {
+                    const labelSpan = f.parentElement.previousElementSibling.lastElementChild;
+                    if(labelSpan) f.style.width = labelSpan.innerText;
                 });
             }, 100);
         }
@@ -139,12 +134,9 @@ function closeWindow(id) {
     const win = document.getElementById(id);
     if (!win) return;
     win.classList.remove('active');
-    
-    // Reset des jauges à la fermeture
     if(id === 'win-competences') {
         document.querySelectorAll('.gauge-fill').forEach(f => f.style.width = '0%');
     }
-    
     if(id === 'win-projets') setTimeout(hideProjectDetails, 400);
 }
 
@@ -163,7 +155,7 @@ function showProjectDetails(key) {
     const pointsHtml = data.details.map(pt => `<li>${pt}</li>`).join('');
     const imagesHtml = data.images.map(img => `
         <div class="img-card">
-            <img src="${img.src}" alt="${img.label}">
+            <img src="${img.src}" alt="${img.label}" onclick="openLightbox('${img.src}', '${img.label}')">
             <p>${img.label}</p>
         </div>
     `).join('');
@@ -298,10 +290,51 @@ const loc = gl.getAttribLocation(prog, "p"); gl.enableVertexAttribArray(loc);
 gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 const tLoc = gl.getUniformLocation(prog, "t"), rLoc = gl.getUniformLocation(prog, "r"), seedLoc = gl.getUniformLocation(prog, "seed");
 
+// --- GESTION DU RESIZE & RENDU ---
+
+function handleResize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+}
+
+window.addEventListener('resize', handleResize);
+handleResize();
+
 function loop(now) {
-    if (!canvas) return;
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight; gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.uniform1f(tLoc, now * 0.001); gl.uniform1f(seedLoc, sessionSeed); gl.uniform2f(rLoc, canvas.width, canvas.height);
-    gl.drawArrays(gl.TRIANGLES, 0, 6); requestAnimationFrame(loop);
+    gl.uniform1f(tLoc, now * 0.001);
+    gl.uniform1f(seedLoc, sessionSeed);
+    gl.uniform2f(rLoc, canvas.width, canvas.height);
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
+
+// --- LIGHTBOX ---
+
+(function() {
+    const overlay = document.createElement('div');
+    overlay.id = 'lightbox-overlay';
+    overlay.innerHTML = `
+        <div id="lightbox-backdrop"></div>
+        <div id="lightbox-box">
+            <button id="lightbox-close" onclick="closeLightbox()">×</button>
+            <img id="lightbox-img" src="" alt="">
+            <div id="lightbox-label"></div>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+    document.getElementById('lightbox-backdrop').addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+})();
+
+function openLightbox(src, label) {
+    const overlay = document.getElementById('lightbox-overlay');
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-label').innerText = label;
+    overlay.classList.add('open');
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox-overlay').classList.remove('open');
+}
